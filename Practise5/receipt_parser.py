@@ -62,7 +62,7 @@ output["time"] = time
 output["payment_method"] = payment_method.group()
 output["total_amount"] = total_amount
 
-with open("structured_receipt.txt", "w", encoding="utf-8") as f:
+with open("structured_receipt.json", "w", encoding="utf-8") as f:
     json.dump(output, f, ensure_ascii=False, indent=4)
 print("done")
 
