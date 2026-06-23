@@ -16,10 +16,23 @@ print(no_microseconds)
 
 # ---
 
-date1 = datetime.datetime(2026, 6, 16, 12, 0, 0)
-date2 = datetime.datetime(2026, 6, 16, 12, 55, 59)
-diff = date2 - date1
-seconds = diff.total_seconds()
+def data_diff(d1, d2):
+    date1 = datetime.datetime(*d1)
+    date2 = datetime.datetime(*d2)
+    diff = date2 - date1
+    return diff.total_seconds()
 
-print(seconds)
+list1 = input().split(",")
+list2 = input().split(",")
+data1 = [int(i) for i in list1]
+data2 = [int(i) for i in list2]
+
+print(data_diff(data1, data2))
+
+
+
+
+
+
+
 
