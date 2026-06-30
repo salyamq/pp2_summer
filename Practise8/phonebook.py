@@ -135,6 +135,84 @@ def delete_contact():
             cur.execute(sql, params)
         conn.commit()
 
+# ------------------------------------------------
+@logger.catch
+def find_by_pattern():
+    find_by = input("find by 1 - name, 2 - number: ")
+    if find_by == '1':
+        value = input("write name pattern: ")
+    elif find_by == '2':
+        value = input("write number patter: ")
+
+
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            if find_by == '1':
+                cur.execute("select * from phonebook where name like find_by_pattern_name(%s)", (value,))
+            elif find_by == '2':
+                cur.execute("select * from phonebook where name like find_by_pattern_number(%s)", (value,))
+            results = cur.fetchall()
+
+            for result in results:
+                print(result)
+
+@logger.catch
+def pagination_function():
+    limit = int(input("limit: "))
+    offset = int(input("offset: "))
+
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("select * from get_contacts_paginated(%s, %s)", (limit, offset))
+            results = cur.fetchall()
+
+            for row in results:
+                print(row)
+
+@logger.catch
+def upsert_contact():
+    name = input("name: ").strip()
+    phone = input("phone: ").strip()
+
+    sql = "call upsert_data(%s, %s)"
+
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(sql, (name, phone))
+        conn.commit()
+
+@logger.catch
+def insert_many_contacts():
+    names_input = input("names separated by comma: ").strip()
+    phones_input = input("phones separated by comma: ").strip()
+
+    names = [name.strip() for name in names_input.split(",")]
+    phones = [phone.strip() for phone in phones_input.split(",")]
+
+    sql = "call insert_many_contacts(%s, %s)"
+
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(sql, (names, phones))
+        conn.commit()
+
+@logger.catch
+def delete_contact_by_procedure():
+    name = input("name: ").strip()
+    phone = input("phone: ").strip()
+
+    sql = "call delete_contact(%s, %s)"
+
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(sql, (name, phone))
+        conn.commit()
+
+    logger.success("contact deleted")
+
+
+
+
 
 # ----------- menu
 
@@ -159,8 +237,23 @@ def main():
             search_name()
         elif choice == '5':
             delete_contact()
+        elif choice == '6':
+            find_by_pattern()
+        elif choice == '7':
+            pagination_function()
+        elif choice == '8':
+            upsert_contact()
+        elif choice == '9':
+            insert_many_contacts()
+        elif choice == '10':
+            delete_contact_by_procedure()
         else:
-            print("try again")
+            print("wrong")
+
+
+
+
+
 
 
 

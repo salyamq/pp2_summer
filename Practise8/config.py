@@ -12,6 +12,12 @@ MENU = """
 3. update name or number
 4. search name
 5. delete contact
+---------
+6. find by pattern (func)
+7. pagination (func)
+8. upsert contact (proc)
+9. insert many contacts (proc)
+10. delete contact by procedure (proc)
 """
 
 
